@@ -1,8 +1,16 @@
 package com.gildedrose;
 
+
+import org.approvaltests.Approvals;
+import org.junit.jupiter.api.Test;
+
 public class TexttestFixture {
-    public static void main(String[] args) {
-        System.out.println("OMGHAI!");
+
+    @Test
+    public void goldenMaster() {
+        StringBuffer output = new StringBuffer();
+        output.append("OMGHAI!");
+        output.append(System.lineSeparator());
 
         Item[] items = new Item[] {
                 new Item("+5 Dexterity Vest", 10, 20), //
@@ -18,20 +26,22 @@ public class TexttestFixture {
 
         GildedRose app = new GildedRose(items);
 
-        int days = 2;
-        if (args.length > 0) {
-            days = Integer.parseInt(args[0]) + 1;
-        }
+        int days = 25;
 
         for (int i = 0; i < days; i++) {
-            System.out.println("-------- day " + i + " --------");
-            System.out.println("name, sellIn, quality");
+            output.append("-------- day " + i + " --------");
+            output.append(System.lineSeparator());
+            output.append("name, sellIn, quality");
+            output.append(System.lineSeparator());
             for (Item item : items) {
-                System.out.println(item);
+                output.append(item);
+                output.append(System.lineSeparator());
             }
-            System.out.println();
+            output.append(System.lineSeparator());
             app.updateQuality();
         }
+
+        Approvals.verify(output.toString());
     }
 
 }
